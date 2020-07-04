@@ -8,10 +8,12 @@ type AppConfigType struct {
 	Database_port int
 	Database_user string
 	Database_pass string
+	Database_name string
+	Database_socket string
 
 	//Config values related to noSQL database (Redis)
 	Redis_socket string
 
 	//Config values related to the HTTP server itself
-	Server_port int 
+	Server_port int
 }

@@ -1,8 +1,10 @@
 {
+	"database_socket": "/var/lib/mysql/mysql.sock",
 	"database_host": "localhost",
 	"database_port": 3306,
-	"database_user": "root",
-	"database_pass": "",
+	"database_user": "mjisoton",
+	"database_pass": "mji.1992",
+	"database_name": "goapi",
 
 	"redis_socket": "/var/run/redis/redis.sock",
 

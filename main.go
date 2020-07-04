@@ -1,8 +1,12 @@
 package main
 
-//Some dependencies
+//Some native dependencies
 import "fmt"
 import "os"
+import "database/sql"
+
+//Third-Party dependencies
+import _ "github.com/go-sql-driver/mysql"
 
 //Custom packs
 import "./utils"
@@ -25,7 +29,18 @@ func main() {
 	fmt.Printf("MariaDB Config: %s:%d\n", AppConfig.Database_host, AppConfig.Database_port)
 	fmt.Printf("Redis Config: %s\n", AppConfig.Redis_socket)
 	fmt.Printf("Server Config: %d\n", AppConfig.Server_port)
-	fmt.Println("###########################################################")
+	fmt.Println("###########################################################\n")
+
+	//Try and open the connection to the MariaDB database
+	db, err := sql.Open("mysql", AppConfig.GetDSN())
+	if err != nil {
+		fmt.Printf("[ERROR] Failed to connect to the MariaDB database: %s", err)
+	} else {
+		fmt.Printf("[SUCCESS] Connection with Mariadb database established.");
+	}
+
+	fmt.Println(db)
+
 
 
 }
