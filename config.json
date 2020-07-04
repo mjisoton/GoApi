@@ -1,8 +1,10 @@
 {
-	"db_host": "localhost",
-	"db_port": 3306,
-	"db_user": "root",
-	"db_pass": ""
+	"database_host": "localhost",
+	"database_port": 3306,
+	"database_user": "root",
+	"database_pass": "",
 
+	"redis_socket": "/var/run/redis/redis.sock",
 
+	"server_port": 8080
 }

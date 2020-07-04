@@ -22,7 +22,9 @@ func main() {
 	//Just a simple greeter
 	fmt.Println("###########################################################")
 	fmt.Println("WebShopping API @ AgênciaNet - by @mjisoton, v0.0.1")
-	fmt.Printf("Database Config: %s:%d\n", AppConfig.Db_host, AppConfig.Db_port)
+	fmt.Printf("MariaDB Config: %s:%d\n", AppConfig.Database_host, AppConfig.Database_port)
+	fmt.Printf("Redis Config: %s\n", AppConfig.Redis_socket)
+	fmt.Printf("Server Config: %d\n", AppConfig.Server_port)
 	fmt.Println("###########################################################")
 
 

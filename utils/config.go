@@ -11,10 +11,17 @@ import (
 func (config AppConfigType) Validate() error {
     return validation.ValidateStruct(&config,
 
-		validation.Field(&config.Db_host, validation.Required),
-		validation.Field(&config.Db_port, validation.Required),
-		validation.Field(&config.Db_user, validation.Required),
-		validation.Field(&config.Db_pass, validation.NotNil),
+		//MariaDB
+		validation.Field(&config.Database_host, validation.Required),
+		validation.Field(&config.Database_port, validation.Required),
+		validation.Field(&config.Database_user, validation.Required),
+		validation.Field(&config.Database_pass, validation.NotNil),
+
+		//NoSQL
+		validation.Field(&config.Redis_socket, validation.Required),
+
+		//HTTP Server
+		validation.Field(&config.Server_port, validation.Required),
     )
 }
 
