@@ -1,8 +1,8 @@
 package main
 
 //Some native dependencies
-import "fmt"
-import "os"
+import "log"
+import "time"
 
 //Custom packs
 import "./utils"
@@ -15,26 +15,29 @@ func main() {
 	var AppConfig utils.AppConfigType
 
 	//Load config.json from the executable's directory
-	if err := utils.LoadConfigFile(&AppConfig, "."); err != nil {
-		fmt.Printf("[ERROR] Configuration error: %s", err)
-		os.Exit(1)
+	if err := utils.LoadConfigFile(&AppConfig, "./config.json"); err != nil {
+		log.Fatalf("[ERROR] Configuration error: %s", err)
 	}
 
 	//Just a simple greeter
-	fmt.Println("###########################################################")
-	fmt.Println("WebShopping API @ AgênciaNet - by @mjisoton, v0.0.1")
-	fmt.Printf("MariaDB Config: %s:%d\n", AppConfig.Database_host, AppConfig.Database_port)
-	fmt.Printf("Redis Config: %s\n", AppConfig.Redis_socket)
-	fmt.Printf("Server Config: %d\n", AppConfig.Server_port)
-	fmt.Println("###########################################################\n")
+	log.Println("###########################################################")
+	log.Println("WebShopping API @ AgênciaNet - by @mjisoton, v0.0.1")
+	log.Printf("MariaDB Connection: %s\n", AppConfig.GetDSN())
+	log.Printf("Redis Connection: %s\n", AppConfig.Redis_socket)
+	log.Printf("Server Config: %d\n", AppConfig.Server_port)
+	log.Println("###########################################################\n")
 
 	//Try and open the connection to the MariaDB database
 	err := models.Connect(AppConfig.GetDSN())
 	if err != nil {
-		fmt.Printf("[ERROR] Failed to connect to the MariaDB database: %s", err)
+		log.Fatal("[ERROR] Failed to connect to the MariaDB database: %s", err)
 	} else {
-		fmt.Printf("[SUCCESS] Connection with Mariadb database established.\n");
+		log.Printf("[SUCCESS] Connection with Mariadb database established.\n")
 	}
+
+
+
+
 
 	/*
 	uList := new(models.SQLUserList)
@@ -42,14 +45,16 @@ func main() {
 
 	if uList.Len > 0 {
 		for _, v := range uList.Res {
-			fmt.Println(uList.Len, v.Nome)
+			log.Println(uList.Len, v.Nome)
 		}
 	}
 	*/
-	
 
 
 
 
 
+
+
+	time.Sleep(60 * time.Second)
 }

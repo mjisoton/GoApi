@@ -2,53 +2,60 @@ package utils
 
 //Some Dependencies
 import (
+	"os"
+	"errors"
 	"strconv"
+	"encoding/json"
+	"io/ioutil"
 
-	//Third Party
-	"github.com/go-ozzo/ozzo-validation"
-    "github.com/spf13/viper"
 )
 
 //Validate the config struct according to predefined rules
 func (config AppConfigType) Validate() error {
-    return validation.ValidateStruct(&config,
 
-		//MariaDB
-		validation.Field(&config.Database_socket, validation.NotNil),
-		validation.Field(&config.Database_host, validation.Required),
-		validation.Field(&config.Database_port, validation.Required),
-		validation.Field(&config.Database_user, validation.Required),
-		validation.Field(&config.Database_pass, validation.NotNil),
-		validation.Field(&config.Database_name, validation.Required),
+	//If there is no socket string, it will try to connect via TCP
+	if config.Database_socket == "" {
 
-		//NoSQL
-		validation.Field(&config.Redis_socket, validation.Required),
+		//TCP requires this parameters (which are not required by socket)
+		if config.Database_host == "" || config.Database_pass == "" || config.Database_port == 0 {
+			return errors.New("The config file is missing valid database parameters.")
+		}
+	}
 
-		//HTTP Server
-		validation.Field(&config.Server_port, validation.Required),
-    )
+	//Now, check the following fields as well, since they're required for both socket and TCP connection
+	if config.Database_name == "" || config.Database_user == "" {
+		return errors.New("The config file is missing valid database parameters.")
+	}
+
+	//Checks if the Server port is filled
+	if config.Server_port == 0 {
+		return errors.New("The config file is missing the HTTP server port.")
+	}
+
+	return nil
 }
 
-//Load the config file, scanning the list of directories passed as parameter
-func LoadConfigFile(AppConfig *AppConfigType, path string) error {
-	v := viper.New()
+//Load the config file if it exists, and populate the AppConfig struct with the values
+func LoadConfigFile(AppConfig *AppConfigType, file string) error {
 
-	//Looks for a config.json
-	v.SetConfigName("config")
-	v.SetConfigType("json")
-	v.AddConfigPath(path)
+	//First of all, check if the file exists
+	info, err := os.Stat(file)
+	if os.IsNotExist(err) == true || info.IsDir() == true {
+		 return err
+ 	}
 
-	//Try reading the files
-	if err := v.ReadInConfig(); err != nil {
-	    return err
+	//Read file to a byte slice
+	content, err := ioutil.ReadFile(file)
+	if err != nil {
+		return err
 	}
 
-	//Try to decode the JSON file(s)
-	if err := v.Unmarshal(&AppConfig); err != nil {
-	    return err
+	//Decode to struct
+	err = json.Unmarshal(content, &AppConfig)
+	if err != nil {
+		return err
 	}
 
-	//Validate the struct after the JSON decode
 	return AppConfig.Validate()
 }
 

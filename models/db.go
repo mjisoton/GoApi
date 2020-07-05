@@ -6,7 +6,6 @@ import "database/sql"
 //Third-Party dependencies
 import _ "github.com/go-sql-driver/mysql"
 
-
 //Global variable to connect to MariaDB (it's thread-safe, is it's OK to use as global)
 var db *sql.DB
 
