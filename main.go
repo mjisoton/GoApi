@@ -3,13 +3,10 @@ package main
 //Some native dependencies
 import "fmt"
 import "os"
-import "database/sql"
-
-//Third-Party dependencies
-import _ "github.com/go-sql-driver/mysql"
 
 //Custom packs
 import "./utils"
+import "./models"
 
 //... and the magic starts
 func main() {
@@ -32,14 +29,26 @@ func main() {
 	fmt.Println("###########################################################\n")
 
 	//Try and open the connection to the MariaDB database
-	db, err := sql.Open("mysql", AppConfig.GetDSN())
+	err := models.Connect(AppConfig.GetDSN())
 	if err != nil {
 		fmt.Printf("[ERROR] Failed to connect to the MariaDB database: %s", err)
 	} else {
-		fmt.Printf("[SUCCESS] Connection with Mariadb database established.");
+		fmt.Printf("[SUCCESS] Connection with Mariadb database established.\n");
 	}
 
-	fmt.Println(db)
+	/*
+	uList := new(models.SQLUserList)
+	models.QueryRows(uList, `SELECT id, nome, email FROM usuarios WHERE ativo = ?`, 1)
+
+	if uList.Len > 0 {
+		for _, v := range uList.Res {
+			fmt.Println(uList.Len, v.Nome)
+		}
+	}
+	*/
+	
+
+
 
 
 

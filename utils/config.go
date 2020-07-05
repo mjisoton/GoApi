@@ -2,8 +2,6 @@ package utils
 
 //Some Dependencies
 import (
-
-	//Native
 	"strconv"
 
 	//Third Party
@@ -31,17 +29,6 @@ func (config AppConfigType) Validate() error {
     )
 }
 
-//Gets the DSN string to connect to a relacional database
-func (config AppConfigType) GetDSN() string {
-
-	//If there is a socket declared, use it
-	if config.Database_socket != "" {
-		return config.Database_user + "@unix(" + config.Database_socket + ")/" + config.Database_name
-	} else {
-		return config.Database_user + ":" + config.Database_pass + "@tcp(" + config.Database_host + ":" + strconv.Itoa(config.Database_port) + ")/" + config.Database_name
-	}
-}
-
 //Load the config file, scanning the list of directories passed as parameter
 func LoadConfigFile(AppConfig *AppConfigType, path string) error {
 	v := viper.New()
@@ -63,4 +50,15 @@ func LoadConfigFile(AppConfig *AppConfigType, path string) error {
 
 	//Validate the struct after the JSON decode
 	return AppConfig.Validate()
+}
+
+//Gets the DSN string to connect to a relacional database
+func (config AppConfigType) GetDSN() string {
+
+	//If there is a socket declared, use it
+	if config.Database_socket != "" {
+		return config.Database_user + "@unix(" + config.Database_socket + ")/" + config.Database_name
+	} else {
+		return config.Database_user + ":" + config.Database_pass + "@tcp(" + config.Database_host + ":" + strconv.Itoa(config.Database_port) + ")/" + config.Database_name
+	}
 }
