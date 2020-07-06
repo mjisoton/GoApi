@@ -2,6 +2,7 @@ package models
 
 //Some dependencies
 import "database/sql"
+import "time"
 
 //Third-Party dependencies
 import _ "github.com/go-sql-driver/mysql"
@@ -32,10 +33,20 @@ func Connect(dsn string) error {
         return err
     }
 
+	//https://www.alexedwards.net/blog/configuring-sqldb
+	//Max connections to the DB (idle + in use)
+	db.SetMaxOpenConns(12)
+
+	//Max connections in idle state
+	db.SetMaxIdleConns(12)
+
+	//Max connection lifetime
+	db.SetConnMaxLifetime(5 * time.Second)
+
 	return nil
 }
 
-//Helpers that simplify the row scanning proccess
+//Helpers that simplify the row scanning process
 func QueryRows(rs RowScanner, query string, params ...interface{}) error {
     rows, err := db.Query(query, params...)
     if err != nil {
