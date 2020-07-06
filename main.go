@@ -7,6 +7,7 @@ import "time"
 //Custom packs
 import "./utils"
 import "./models"
+import "./caching"
 
 //... and the magic starts
 func main() {
@@ -34,6 +35,23 @@ func main() {
 	} else {
 		log.Printf("[SUCCESS] Connection with Mariadb database established.\n")
 	}
+
+	//Try and connect to the Redis database
+	err = caching.Connect(AppConfig.Redis_socket, AppConfig.Redis_min_conn)
+	if err != nil {
+		log.Fatalf("[ERROR] Failed to connect to the Redis database: %s", err)
+	} else {
+		log.Printf("[SUCCESS] Connection with Redis database established.\n")
+	}
+
+	/*
+		TODO
+		Continuar extendendo o Redis ámedida que for sendo necessário
+		Implementar Rate Limiting
+		HTTP Router
+		Middleware Auth
+
+	*/
 
 
 

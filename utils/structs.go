@@ -13,6 +13,7 @@ type AppConfigType struct {
 
 	//Config values related to noSQL database (Redis)
 	Redis_socket string
+	Redis_min_conn int
 
 	//Config values related to the HTTP server itself
 	Server_port int

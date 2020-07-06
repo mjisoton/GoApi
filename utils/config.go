@@ -27,6 +27,11 @@ func (config AppConfigType) Validate() error {
 		return errors.New("The config file is missing valid database parameters.")
 	}
 
+	//Check if the redis parameters were filled
+	if config.Redis_min_conn == 0 || config.Redis_socket == "" {
+		return errors.New("The confif file is missing valid NoSQL parameters.")
+	}
+
 	//Checks if the Server port is filled
 	if config.Server_port == 0 {
 		return errors.New("The config file is missing the HTTP server port.")
