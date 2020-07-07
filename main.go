@@ -4,10 +4,11 @@ package main
 import "log"
 import "time"
 
-//Custom packs
+//Custom packages
 import "./utils"
 import "./models"
 import "./caching"
+import "./router"
 
 //... and the magic starts
 func main() {
@@ -44,14 +45,11 @@ func main() {
 		log.Printf("[SUCCESS] Connection with Redis database established.\n")
 	}
 
-	/*
-		TODO
-		Continuar extendendo o Redis ámedida que for sendo necessário
-		Implementar Rate Limiting
-		HTTP Router
-		Middleware Auth
-
-	*/
+	//After establishing the connections, start the HTTP server_port
+	err = router.Start(AppConfig.Server_port)
+	if err != nil {
+		log.Fatal("[ERROR] Failed to start the HTTP server and router.")
+	}
 
 
 
@@ -69,10 +67,4 @@ func main() {
 	*/
 
 
-
-
-
-
-
-	time.Sleep(60 * time.Second)
 }
