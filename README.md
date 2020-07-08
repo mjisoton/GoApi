@@ -3,9 +3,10 @@
 Just some REST API to try and learn Golang. The idea is to put together a relational database, a NoSQL database, logging features and make the most performatic possible REST API.
 
 ## TODO:
-- Continuar extendendo o Redis ámedida que for sendo necessário
-- Implementar Rate Limiting
-- HTTP Router
+- Keep extending the Redis package until it has all the features needed and it's easy enough to use it
+- Do some Rate Limiting
+- DO some routing
 - Middleware Auth
 
-Work in progress.
+
+Still work in progress.
