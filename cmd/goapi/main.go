@@ -50,20 +50,4 @@ func main() {
 		log.Fatal("[ERROR] Failed to start the HTTP server and router.")
 	}
 
-
-
-
-
-	/*
-	uList := new(models.SQLUserList)
-	models.QueryRows(uList, `SELECT id, nome, email FROM usuarios WHERE ativo = ?`, 1)
-
-	if uList.Len > 0 {
-		for _, v := range uList.Res {
-			log.Println(uList.Len, v.Nome)
-		}
-	}
-	*/
-
-
 }

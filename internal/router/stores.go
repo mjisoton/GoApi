@@ -1,11 +1,24 @@
 package router
 
 import "net/http"
-import "log"
+import "encoding/json"
 
-/*This file describes all the routes related to stores */
+//import "github.com/mjisoton/GoApi/internal/models"
 
-func getStoreData(w http.ResponseWriter, r *http.Request) {
-	log.Println("rota")
-	w.Write([]byte("Loren Ipsun!\n"))
+//Return types
+type HelloWorldResponse struct {
+	Error   bool     `json:"error"`
+	Message string   `json:"message"`
+	Users   []string `json:"users"`
+}
+
+//Get Hello World
+func getHelloWorld(w http.ResponseWriter, r *http.Request) {
+	response := HelloWorldResponse{
+		Error:   false,
+		Message: "Hello World",
+	}
+
+	//Writes the output
+	json.NewEncoder(w).Encode(response)
 }

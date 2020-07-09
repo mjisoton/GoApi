@@ -6,15 +6,15 @@ import "net/http"
 
 //Return types
 type NotFoundResponse struct {
-    Error   	bool		`json:"error"`
-    Message		string		`json:"message"`
+	Error   bool   `json:"error"`
+	Message string `json:"message"`
 }
 
 //This function is called when Not Found (404) is reached
 func notFound(w http.ResponseWriter, r *http.Request) {
 	response := NotFoundResponse{
-		Error: true,
-        Message: "The requested endpoint is not available.",
+		Error:   true,
+		Message: "The requested endpoint is not available.",
 	}
 
 	//Sets the cotent type (has to do this here since non routed URLs don't reach middlewares)
