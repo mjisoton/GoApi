@@ -4,13 +4,7 @@ package models
 import "database/sql"
 import "log"
 
-type StoreTokenType struct {
-		token string
-		id int
-
-}
-
-func SearchStoreByToken(token string) (string, error) {
+func SearchStoreByToken(token string) (string, bool) {
 	var id_loja string
 
 	row := db.QueryRow(
@@ -26,11 +20,11 @@ func SearchStoreByToken(token string) (string, error) {
 
 	if err != nil {
 	    if err == sql.ErrNoRows {
-	        return "", err
+	        return "", false
 	    } else {
-			log.Println(err)
+			log.Fatalf("Failed to request the token from the database.")
 		}
 	}
 
-	return id_loja, nil
+	return id_loja, true
 }

@@ -1,24 +1,15 @@
 package router
 
 import "net/http"
-import "encoding/json"
+import "github.com/mjisoton/GoApi/internal/utils"
 
 //import "github.com/mjisoton/GoApi/internal/models"
 
-//Return types
-type HelloWorldResponse struct {
-	Error   bool     `json:"error"`
-	Message string   `json:"message"`
-	Users   []string `json:"users"`
-}
-
 //Get Hello World
 func getHelloWorld(w http.ResponseWriter, r *http.Request) {
-	response := HelloWorldResponse{
-		Error:   false,
-		Message: "Hello World",
-	}
+	
+	response := util.NewResponseType(false, "The Hello World route was reached with success.", "200")
 
 	//Writes the output
-	json.NewEncoder(w).Encode(response)
+	util.Respond(w, 200, response)
 }
